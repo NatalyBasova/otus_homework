@@ -7,6 +7,5 @@ from dataclasses import dataclass
 
 @dataclass
 class Engine:
-    def __init__(self, volume, pistons):
-        self.volume = volume
-        self.pistonc = pistons
+    volume: int
+    pistons: int
