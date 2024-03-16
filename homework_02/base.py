@@ -9,17 +9,12 @@ class Vehicle(ABC):
         weight: int = 0,
         fuel: int = 0,
         fuel_consumption: int = 0,
-        started: bool = False,
     ):
         self.weight = weight
         self.fuel = fuel
         self.fuel_consumption = fuel_consumption
-        self.started = started
 
-    # weight: int
-    # started: bool
-    # fuel: int
-    # fuel_consumption: int
+        self.started = False
 
     # def start(self, started, fuel):
     #   if fuel = 0 in started is False:
