@@ -23,13 +23,6 @@ class Vehicle(ABC):
         if not self.started:
             self.started = True
 
-    # def start(self, started, fuel):
-    #   if fuel = 0 in started is False:
-    #       else:
-    #         raise LowFuelError
-
-    #     return started
-
     # def move(self, fuel, fuel_consumption):
     #     if self.fuel = fuel
     # fuel_consumption > 0
