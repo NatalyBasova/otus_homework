@@ -16,6 +16,13 @@ class Vehicle(ABC):
 
         self.started = False
 
+    def start(self):
+        if self.fuel <= 0:
+            raise LowFuelError
+
+        if not self.started:
+            self.started = True
+
     # def start(self, started, fuel):
     #   if fuel = 0 in started is False:
     #       else:
