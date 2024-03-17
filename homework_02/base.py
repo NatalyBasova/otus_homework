@@ -23,9 +23,9 @@ class Vehicle(ABC):
         if not self.started:
             self.started = True
 
-    # def move(self, fuel, fuel_consumption):
-    #     if self.fuel = fuel
-    # fuel_consumption > 0
-    #         raise NotEnoughFuel
-
-    #     return fuel
+    def move(self, distance):
+        fuel_needs = distance * self.fuel_consumption
+        if fuel_needs <= self.fuel:
+            self.fuel -= fuel_needs
+        else:
+            raise NotEnoughFuel
