@@ -32,3 +32,6 @@ class Plane(Vehicle):
 
     def load_cargo(self, weight):
         self.cargo = weight
+
+    def remove_all_cargo(self):
+        pass
