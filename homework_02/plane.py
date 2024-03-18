@@ -20,19 +20,7 @@ class Plane(Vehicle):
         self.max_cargo = max_cargo
         self.cargo = 0
 
-    # @property
-    # def cargo(self):
-    #     return self._cargo
-
-    # @cargo.setter
-    # def cargo(self, load):
-    #     self._cargo = load
-    #     # if (self.cargo + load) > self.max_cargo:
-    #     #     raise CargoOverload
-    #     # self._cargo += load
-
     def load_cargo(self, load):
-        self.cargo = load
         if (self.cargo + load) > self.max_cargo:
             raise CargoOverload
         self.cargo += load
