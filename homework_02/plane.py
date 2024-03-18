@@ -18,20 +18,27 @@ class Plane(Vehicle):
         super().__init__(weight, fuel, fuel_consumption)
 
         self.max_cargo = max_cargo
-        self._cargo = 0
+        self.cargo = 0
 
-    @property
-    def cargo(self):
-        return self._cargo
+    # @property
+    # def cargo(self):
+    #     return self._cargo
 
-    @cargo.setter
-    def cargo(self, load):
+    # @cargo.setter
+    # def cargo(self, load):
+    #     self._cargo = load
+    #     # if (self.cargo + load) > self.max_cargo:
+    #     #     raise CargoOverload
+    #     # self._cargo += load
+
+    def load_cargo(self, load):
+        self.cargo = load
         if (self.cargo + load) > self.max_cargo:
             raise CargoOverload
-        self._cargo += load
-
-    def load_cargo(self, weight):
-        self.cargo = weight
+        self.cargo += load
 
     def remove_all_cargo(self):
-        pass
+        orig = self.cargo
+
+        self.cargo = 0
+        return orig
