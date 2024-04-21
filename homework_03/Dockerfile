@@ -1,3 +1,9 @@
 FROM python:3.9-buster
 
-RUN python3 --version
+WORKDIR /app
+
+COPY . .
+
+RUN pip install --no-cache-dir --editable .
+
+RUN pwd && ls -laR && pip list

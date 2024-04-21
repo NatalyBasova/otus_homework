@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 # prometheus_api_client используется последней версии из master
 install_requires = [
     "fastapi==0.110.0",
+    "uvicorn==0.29.0",
 ]
 
 # Additional feature sets and their requirements
