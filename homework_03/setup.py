@@ -2,7 +2,6 @@
 from setuptools import setup, find_packages
 
 # Installation requirements needed absolutely for the program to run
-# prometheus_api_client используется последней версии из master
 install_requires = [
     "fastapi==0.110.0",
     "uvicorn==0.29.0",
@@ -26,12 +25,12 @@ def read_file(fname):
 setup(
     name="webapp",
     version="0.1.0",
-    author="Evgeny Basov",
-    author_email="Evgen.Basov@x5.ru",
-    description="Anomaly Detection in Time-Series",
+    author="Nataly Basova",
+    author_email="umz-strahova@mail.ru",
+    description="Ping pong program",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github...",
+    url="https://github.com/NatalyBasova/otus_homework",
     packages=find_packages(),
     install_requires=install_requires,
     extras_require=extras_require,
