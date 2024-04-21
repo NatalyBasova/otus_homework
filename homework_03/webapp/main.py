@@ -16,7 +16,7 @@ def read_root():
 
 @app.get("/ping/")
 def pong():
-    return {"ping": "pong"}
+    return {"message": "pong"}
 
 
 def main():
