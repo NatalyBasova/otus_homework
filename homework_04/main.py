@@ -13,13 +13,21 @@
 - закрытие соединения с БД
 """
 
+import asyncio
+
+import jsonplaceholder_requests
+
 
 async def async_main():
-    pass
+    print(
+        await jsonplaceholder_requests.fetch_json(
+            jsonplaceholder_requests.USERS_DATA_URL
+        )
+    )
 
 
 def main():
-    pass
+    asyncio.run(async_main())
 
 
 if __name__ == "__main__":
