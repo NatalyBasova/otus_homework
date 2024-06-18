@@ -17,18 +17,19 @@ import os
 # )
 # import config
 
-# from sqlalchemy.orm import (
-#     DeclarativeBase,
-#     declared_attr,
-# )
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    declared_attr,
+)
 
-# from sqlalchemy import (
-#     Column,
-#     String,
-#     Integer,
-#     ForeignKey,
-#     String,
-# )
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    ForeignKey,
+    String,
+)
+
 # from sqlalchemy.orm import relationship
 
 
@@ -51,21 +52,24 @@ Session = None
 # )
 
 
-# class Base(DeclarativeBase):
-#     pass
+class Base(DeclarativeBase):
+    @declared_attr
+    def __tablename__(cls):
+        return f"{cls.__name__.lower()}s"
 
-#     @declared_attr
-#     def __tablename__(cls):
-#         return f"{cls.__name__.lower()}s"
+    id = Column(Integer, primary_key=True)
 
-#     id = Column(Integer, primary_key=True)
+    def __repr__(self) -> str:
+        fields = self.__dict__.copy()
+        fields.pop("_sa_instance_state")
+        return str(fields)
 
 
-# class User(Base):
+class User(Base):
 
-#     name = Column(String)
-#     username = Column(String(32), nullable=False, unique=True)
-#     email = Column(String, nullable=True, unique=True)
+    name = Column(String)
+    username = Column(String(32), nullable=False, unique=True)
+    email = Column(String, nullable=True, unique=True)
 
 
 # user = relationship("User", backref="Posts")
