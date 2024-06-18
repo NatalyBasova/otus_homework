@@ -71,6 +71,9 @@ class User(Base):
     username = Column(String(32), nullable=False, unique=True)
     email = Column(String, nullable=True, unique=True)
 
+    def __init__(self, iterable=(), **kwargs):
+        self.__dict__.update(iterable, **kwargs)
+
 
 # user = relationship("User", backref="Posts")
 

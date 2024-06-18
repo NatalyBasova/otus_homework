@@ -16,14 +16,26 @@
 import asyncio
 
 import jsonplaceholder_requests
+import models
 
 
 async def async_main():
-    print(
-        await jsonplaceholder_requests.fetch_json(
-            jsonplaceholder_requests.USERS_DATA_URL
-        )
+    users_json = await jsonplaceholder_requests.fetch_json(
+        jsonplaceholder_requests.USERS_DATA_URL
     )
+    users_list = list()
+    for json_obj in users_json:
+        filtered_fields = dict(
+            {
+                "name": json_obj.pop("name"),
+                "username": json_obj.pop("username"),
+                "email": json_obj.pop("email"),
+                "id": json_obj.pop("id"),
+            }
+        )
+        users_list.append(models.User(**filtered_fields))
+
+    print(users_list)
 
 
 def main():
