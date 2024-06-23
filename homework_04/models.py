@@ -44,12 +44,9 @@ PG_CONN_URI = (
 )
 
 
-Session = None
-
-
 async_engine = create_async_engine(url=PG_CONN_URI, echo=True)
 Base = declarative_base()
-async_session = async_sessionmaker(
+Session = async_sessionmaker(
     bind=async_engine,
     class_=AsyncSession,
     autocommit=False,
@@ -107,5 +104,21 @@ class User(Base):
 
 #     post = relationship("Post", backref="User")
 
+
 #     def __repr__(self):
 #         return str(self)
+async def create_user(
+    session: AsyncSession,
+    name: str,
+    username: str,
+    email: str,
+    id: int,
+    refresh_after_commit: bool = False,
+) -> User:
+    user = User(name=name, username=username, email=email, id=id)
+    session.add(user)
+    await session.commit()
+    if refresh_after_commit:
+        await session.refresh(user)
+    print("created user:", user)
+    return user

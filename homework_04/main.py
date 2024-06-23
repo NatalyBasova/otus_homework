@@ -15,27 +15,40 @@
 
 import asyncio
 
+
 import jsonplaceholder_requests
 import models
 
 
 async def async_main():
-    users_json = await jsonplaceholder_requests.fetch_json(
-        jsonplaceholder_requests.USERS_DATA_URL
-    )
-    users_list = list()
-    for json_obj in users_json:
-        filtered_fields = dict(
-            {
-                "name": json_obj.pop("name"),
-                "username": json_obj.pop("username"),
-                "email": json_obj.pop("email"),
-                "id": json_obj.pop("id"),
-            }
+    async with models.Session() as session:
+      #async with session.begin():
+      #  session.add(models.User(name="a", username="b", email="c", id=3))
+        users_json = await jsonplaceholder_requests.fetch_json(
+            jsonplaceholder_requests.USERS_DATA_URL
         )
-        users_list.append(models.User(**filtered_fields))
 
-    print(users_list)
+        users_list = list()
+        for json_obj in users_json:
+            filtered_fields = dict(
+                {
+                    "name": json_obj.pop("name"),
+                    "username": json_obj.pop("username"),
+                    "email": json_obj.pop("email"),
+                    "id": json_obj.pop("id"),
+                }
+            )
+            await models.create_user(
+                session=session,
+                name=filtered_fields.get("name"),
+                username=filtered_fields.get("username"),
+                email=filtered_fields.get("email"),
+                id=filtered_fields.get("id"),
+            )
+            # users_list.append(models.User(**filtered_fields))
+
+    # print(users_list)
+    # sa_engine = await models.async_engine()
 
 
 def main():
