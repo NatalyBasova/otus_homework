@@ -47,27 +47,6 @@ PG_CONN_URI = (
 )
 
 
-async_engine = create_async_engine(url=PG_CONN_URI, echo=True)
-Base = declarative_base()
-Session = async_sessionmaker(
-    bind=async_engine,
-    class_=AsyncSession,
-    autocommit=False,
-    expire_on_commit=False,
-)
-
-
-async def init_models(session: AsyncSession):
-    session.run_sync(Base.metadata.create_all)
-    session.commit()
-
-
-async def recreate_models():
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
-
-
 class Base(DeclarativeBase):
     @declared_attr
     def __tablename__(cls):
@@ -114,6 +93,21 @@ class Post(Base):
     body = Column(Text, default="", server_default="")
 
     user = relationship("User", back_populates="posts", uselist=False)
+
+
+async_engine = create_async_engine(url=PG_CONN_URI, echo=True)
+Session = async_sessionmaker(
+    bind=async_engine,
+    class_=AsyncSession,
+    autocommit=False,
+    expire_on_commit=False,
+)
+
+
+async def recreate_models():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        # await conn.run_sync(Base.metadata.create_all)
 
 
 async def create_users(

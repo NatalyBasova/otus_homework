@@ -21,10 +21,13 @@ import models
 
 
 async def async_main():
+    
+    async with models.async_engine.begin() as conn:
+        await conn.run_sync(models.Base.metadata.create_all)
 
     async with models.Session() as session:
 
-        models.init_models(session=session)
+        
 
         users_json = await jsonplaceholder_requests.fetch_json(
             jsonplaceholder_requests.USERS_DATA_URL
