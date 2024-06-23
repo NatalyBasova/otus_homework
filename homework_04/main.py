@@ -27,6 +27,10 @@ async def async_main():
             jsonplaceholder_requests.USERS_DATA_URL
         )
 
+        posts_json = await jsonplaceholder_requests.fetch_json(
+            jsonplaceholder_requests.POSTS_DATA_URL
+        )
+
         users_list = list()
         for json_obj in users_json:
             filtered_fields = dict(
@@ -40,7 +44,20 @@ async def async_main():
 
             users_list.append(models.User(**filtered_fields))
 
+        posts_list = list()
+        for json_obj in posts_json:
+            filtered_fields = dict(
+                {
+                    "user_id": json_obj.pop("userId"),
+                    "title": json_obj.pop("title"),
+                    "body": json_obj.pop("body"),
+                }
+            )
+
+            posts_list.append(models.Post(**filtered_fields))
+
         await models.create_users(session=session, users=users_list)
+        await models.create_posts(session=session, posts=posts_list)
 
 
 def main():

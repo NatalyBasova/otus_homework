@@ -31,6 +31,7 @@ from sqlalchemy import (
     Integer,
     ForeignKey,
     String,
+    Text,
 )
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -73,6 +74,9 @@ class Base(DeclarativeBase):
         fields.pop("_sa_instance_state")
         return str(fields)
 
+    def __init__(self, iterable=(), **kwargs):
+        self.__dict__.update(iterable, **kwargs)
+
 
 class User(Base):
 
@@ -80,34 +84,28 @@ class User(Base):
     username = Column(String(32), nullable=False, unique=True)
     email = Column(String, nullable=True, unique=True)
 
-    def __init__(self, iterable=(), **kwargs):
-        self.__dict__.update(iterable, **kwargs)
-
 
 # user = relationship("User", backref="Posts")
 
 
-# class Post(Base):
+class Post(Base):
 
-#     user_id = Column(
-#         Integer,
-#         ForeignKey("users.id"),
-#         unique=False,
-#         nullable=False,
-#     )
-#     title = Column(
-#         String(80),
-#         nullable=False,
-#         default="",
-#         server_default="",
-#     )
-#     body = Column(Text, default="", server_default="")
+    user_id = Column(
+        Integer,
+        # ForeignKey("users.id"),
+        unique=False,
+        nullable=False,
+    )
+    title = Column(
+        String(80),
+        nullable=False,
+        default="",
+        server_default="",
+    )
+    body = Column(Text, default="", server_default="")
+
 
 #     post = relationship("Post", backref="User")
-
-
-#     def __repr__(self):
-#         return str(self)
 
 
 async def create_users(
@@ -115,4 +113,12 @@ async def create_users(
     users: List[User],
 ):
     session.add_all(users)
+    await session.commit()
+
+
+async def create_posts(
+    session: AsyncSession,
+    posts: List[Post],
+):
+    session.add_all(posts)
     await session.commit()
