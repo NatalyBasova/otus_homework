@@ -22,8 +22,7 @@ import models
 
 async def async_main():
     async with models.Session() as session:
-      #async with session.begin():
-      #  session.add(models.User(name="a", username="b", email="c", id=3))
+
         users_json = await jsonplaceholder_requests.fetch_json(
             jsonplaceholder_requests.USERS_DATA_URL
         )
@@ -38,20 +37,10 @@ async def async_main():
                     "id": json_obj.pop("id"),
                 }
             )
-            # await models.create_user(
-            #     session=session,
-            #     name=filtered_fields.get("name"),
-            #     username=filtered_fields.get("username"),
-            #     email=filtered_fields.get("email"),
-            #     id=filtered_fields.get("id"),
-            # )
+
             users_list.append(models.User(**filtered_fields))
-            
-        # TODO: вызвать на users_list создание пользователей
+
         await models.create_users(session=session, users=users_list)
-        
-    # print(users_list)
-    # sa_engine = await models.async_engine()
 
 
 def main():

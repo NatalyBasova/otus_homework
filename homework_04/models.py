@@ -108,26 +108,11 @@ class User(Base):
 
 #     def __repr__(self):
 #         return str(self)
-async def create_user(
-    session: AsyncSession,
-    name: str,
-    username: str,
-    email: str,
-    id: int,
-    refresh_after_commit: bool = False,
-) -> User:
-    user = User(name=name, username=username, email=email, id=id)
-    session.add(user)
-    await session.commit()
-    if refresh_after_commit:
-        await session.refresh(user)
-    print("created user:", user)
-    return user
 
 
 async def create_users(
     session: AsyncSession,
     users: List[User],
-    refresh_after_commit: bool = False,
-) -> Sequence[User]:
-    pass
+):
+    session.add_all(users)
+    await session.commit()
