@@ -91,7 +91,7 @@ class User(Base):
 
     posts = relationship(
         "Post",
-        back_populates="user",
+        back_populates="users",
         uselist=True,
     )
 
@@ -112,7 +112,7 @@ class Post(Base):
     )
     body = Column(Text, default="", server_default="")
 
-    user = relationship("User", back_populates="posts", uselist=False)
+    users = relationship("User", back_populates="posts", uselist=False)
 
 
 async def create_users(
