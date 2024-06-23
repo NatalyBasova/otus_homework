@@ -11,16 +11,18 @@
 import os
 
 
-# from sqlalchemy.ext.asyncio import (
-#     create_async_engine,
-#     async_sessionmaker,
-# )
-# import config
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_sessionmaker,
+    AsyncSession,
+)
+
 
 from sqlalchemy.orm import (
     DeclarativeBase,
     declared_attr,
 )
+
 
 from sqlalchemy import (
     Column,
@@ -30,6 +32,9 @@ from sqlalchemy import (
     String,
 )
 
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import text
+
 # from sqlalchemy.orm import relationship
 
 
@@ -38,18 +43,24 @@ PG_CONN_URI = (
     or "postgresql+asyncpg://postgres:password@localhost/postgres"
 )
 
-Base = None
+
 Session = None
 
-# async_engine = create_async_engine(
-#     url=config.DB_URL,
-#     echo=config.DB_ECHO,
-# )
-# async_session = async_sessionmaker(
-#     bind=async_engine,
-#     autocommit=False,
-#     expire_on_commit=False,
-# )
+
+async_engine = create_async_engine(url=PG_CONN_URI, echo=True)
+Base = declarative_base()
+async_session = async_sessionmaker(
+    bind=async_engine,
+    class_=AsyncSession,
+    autocommit=False,
+    expire_on_commit=False,
+)
+
+
+async def init_models():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
 
 
 class Base(DeclarativeBase):
