@@ -59,6 +59,7 @@ Session = async_sessionmaker(
 
 async def init_models(session: AsyncSession):
     session.run_sync(Base.metadata.create_all)
+    session.commit()
 
 
 async def recreate_models():
