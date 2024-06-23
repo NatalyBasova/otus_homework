@@ -32,12 +32,13 @@ from sqlalchemy import (
     ForeignKey,
     String,
     Text,
+    select,
 )
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import text
 
-# from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
 
 
 PG_CONN_URI = (
@@ -84,15 +85,18 @@ class User(Base):
     username = Column(String(32), nullable=False, unique=True)
     email = Column(String, nullable=True, unique=True)
 
-
-# user = relationship("User", backref="Posts")
+    posts = relationship(
+        "Post",
+        back_populates="user",
+        uselist=True,
+    )
 
 
 class Post(Base):
 
     user_id = Column(
         Integer,
-        # ForeignKey("users.id"),
+        ForeignKey("users.id"),
         unique=False,
         nullable=False,
     )
@@ -104,8 +108,7 @@ class Post(Base):
     )
     body = Column(Text, default="", server_default="")
 
-
-#     post = relationship("Post", backref="User")
+    user = relationship("User", back_populates="posts", uselist=False)
 
 
 async def create_users(
