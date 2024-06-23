@@ -9,6 +9,7 @@
 """
 
 import os
+from typing import Sequence, List
 
 
 from sqlalchemy.ext.asyncio import (
@@ -122,3 +123,11 @@ async def create_user(
         await session.refresh(user)
     print("created user:", user)
     return user
+
+
+async def create_users(
+    session: AsyncSession,
+    users: List[User],
+    refresh_after_commit: bool = False,
+) -> Sequence[User]:
+    pass
