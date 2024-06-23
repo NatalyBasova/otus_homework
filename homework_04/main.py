@@ -21,7 +21,10 @@ import models
 
 
 async def async_main():
+
     async with models.Session() as session:
+
+        models.init_models(session=session)
 
         users_json = await jsonplaceholder_requests.fetch_json(
             jsonplaceholder_requests.USERS_DATA_URL
@@ -61,6 +64,7 @@ async def async_main():
 
 
 def main():
+
     asyncio.run(async_main())
 
 

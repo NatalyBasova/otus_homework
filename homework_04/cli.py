@@ -8,7 +8,7 @@ cli = typer.Typer()
 
 @cli.command()
 def db_init_models():
-    asyncio.run(models.init_models())
+    asyncio.run(models.recreate_models())
     print("Done")
 
 

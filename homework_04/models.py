@@ -57,7 +57,11 @@ Session = async_sessionmaker(
 )
 
 
-async def init_models():
+async def init_models(session: AsyncSession):
+    session.run_sync(Base.metadata.create_all)
+
+
+async def recreate_models():
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
