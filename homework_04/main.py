@@ -64,7 +64,8 @@ async def async_main():
 
         await models.create_users(session=session, users=users_list)
         await models.create_posts(session=session, posts=posts_list)
-
+        
+        session.close_all()
 
 def main():
 
