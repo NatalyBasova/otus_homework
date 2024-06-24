@@ -22,6 +22,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.orm import (
     DeclarativeBase,
     declared_attr,
+    relationship,
 )
 
 
@@ -32,13 +33,7 @@ from sqlalchemy import (
     ForeignKey,
     String,
     Text,
-    select,
 )
-
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import text
-
-from sqlalchemy.orm import relationship
 
 
 PG_CONN_URI = (
@@ -107,7 +102,7 @@ Session = async_sessionmaker(
 async def recreate_models():
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
-        # await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(Base.metadata.create_all)
 
 
 async def create_users(
