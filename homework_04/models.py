@@ -23,6 +23,7 @@ from sqlalchemy.orm import (
     DeclarativeBase,
     declared_attr,
     relationship,
+    close_all_sessions,
 )
 
 
@@ -119,3 +120,7 @@ async def create_posts(
 ):
     session.add_all(posts)
     await session.commit()
+
+
+async def end_working():
+    close_all_sessions()
