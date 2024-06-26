@@ -21,13 +21,11 @@ import models
 
 
 async def async_main():
-    
+
     async with models.async_engine.begin() as conn:
         await conn.run_sync(models.Base.metadata.create_all)
 
     async with models.Session() as session:
-
-        
 
         users_json = await jsonplaceholder_requests.fetch_json(
             jsonplaceholder_requests.USERS_DATA_URL
@@ -64,8 +62,9 @@ async def async_main():
 
         await models.create_users(session=session, users=users_list)
         await models.create_posts(session=session, posts=posts_list)
-        
-        await session.close_all()
+
+        await models.end_working()
+
 
 def main():
 
