@@ -4,3 +4,6 @@ main > .container {
     padding: 100px 50px 75px 100px;
 }
   
+.left-button {
+    float: left;
+}
